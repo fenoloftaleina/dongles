@@ -77,7 +77,10 @@
 
       (letfn [(animate [i]
                 (when @running (js/requestAnimationFrame animate (+ 1 i)))
-                (when (< (mod (* i 1000) 5.0) 1.0) (mesh/prepare))
+
+                (when (< (mod (* i 1000) 5.0) 1.0)
+                  (mesh/prepare))
+
                 (.render renderer scene camera)
                 (when-let [stats (:stats @state)] (.update stats)))]
         (animate 0)

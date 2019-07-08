@@ -3,7 +3,7 @@
   )
 
 (def n 5)
-(def faces (* 4 n))
+(def faces (* 6 n))
 (def m (* faces 6 3))
 (def geometry (js/THREE.BufferGeometry.))
 (def vertices (js/Float32Array. m))
@@ -57,7 +57,21 @@
                          (nth vs-bottom4x3 (mod (inc j) 4))
                          (nth vs-top4x3 j)
                          (nth vs-top4x3 (mod (inc j) 4))]
-                        cs2x3)))
+                        cs2x3))
+                    (add-face
+                      (+ i (* 4 6 3))
+                      [(nth vs-bottom4x3 2)
+                       (nth vs-bottom4x3 3)
+                       (nth vs-bottom4x3 1)
+                       (nth vs-bottom4x3 0)]
+                      cs2x3)
+                    (add-face
+                      (+ i (* 5 6 3))
+                      [(nth vs-top4x3 2)
+                       (nth vs-top4x3 3)
+                       (nth vs-top4x3 1)
+                       (nth vs-top4x3 0)]
+                      cs2x3))
         ]
 
     #_(add-face 0
@@ -83,10 +97,10 @@
                )
 
     (dotimes [i n]
-      (let [a (* i 6)
+      (let [a (* i 6.3)
             pos (fn [[x y z]]
                   [(+ x (rand-int 3)) (+ y a) (* z 2)])]
-        (add-cubey (* i 4 6 3)
+        (add-cubey (* i 6 6 3)
                    (mapv pos
                          [[-3 -3 3]
                           [3 -3 3]
