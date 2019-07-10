@@ -2,6 +2,9 @@
   ;; (:require three)
   )
 
+(defn debug [msg]
+  (set! (.-innerHTML (js/document.getElementById "debug")) msg))
+
 (def n 5)
 (def faces (* 6 n))
 (def m (* faces 6 3))

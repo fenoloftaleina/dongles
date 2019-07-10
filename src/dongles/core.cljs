@@ -14,7 +14,7 @@
     (let [stats (js/Stats.)]
       (set! (.. stats -domElement -style -position) "absolute")
       (set! (.. stats -domElement -style -left) "0px")
-      (set! (.. stats -domElement -style -top) "0px")
+      (set! (.. stats -domElement -style -bottom) "0px")
       (.appendChild (.-body js/document) (.-domElement stats))
       (swap! state assoc :stats stats))))
 
