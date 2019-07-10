@@ -73,13 +73,19 @@
           lights (prepared-lights scene)
           running (atom true)]
 
-      (.add scene (mesh/prepare))
+      (.add scene (mesh/prepare 0))
 
       (letfn [(animate [i]
                 (when @running (js/requestAnimationFrame animate (+ 1 i)))
 
-                (when (< (mod (* i 1000) 5.0) 1.0)
-                  (mesh/prepare))
+                (when (< (mod (* i 300) 50) 1.0)
+                  (swap! state assoc
+                         :x-incs (repeatedly
+                                   (* 8 mesh/n)
+                                   #(rand-int 3))
+                         :x-incs-start i
+                         :x-incs-duration 200.0))
+                (mesh/prepare i @state)
 
                 (.render renderer scene camera)
                 (when-let [stats (:stats @state)] (.update stats)))]

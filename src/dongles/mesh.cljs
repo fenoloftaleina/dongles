@@ -35,7 +35,7 @@
           (+ start i)
           (nth in i))))
 
-(defn prepare []
+(defn prepare [t & [state]]
   (let [add-face (fn [i vs4x3 cs2x3]
                    (doseq [[j v] (map vector
                                       (range 0 6)
@@ -49,7 +49,7 @@
                      (set3 colors (+ i j) (first cs2x3)))
                    (doseq [j [6 12 15]]
                      (set3 colors (+ i j) (last cs2x3))))
-        add-cubey (fn [i vs-bottom4x3 vs-top4x3 cs2x3]
+        add-cubey (fn [i [vs-bottom4x3 vs-top4x3] cs2x3]
                     (dotimes [j 4]
                       (add-face
                         (+ i (* j 6 3))
@@ -98,19 +98,28 @@
 
     (dotimes [i n]
       (let [a (* i 6.3)
-            pos (fn [[x y z]]
-                  [(+ x (rand-int 3)) (+ y a) (* z 2)])]
+            pos (fn [j [x y z]]
+                  [(+ x (* (js/THREE.Math.clamp
+                             (/ (- t (:x-incs-start state))
+                                (float (:x-incs-duration state)))
+                             0
+                             1)
+                           (nth (:x-incs state) (+ (* i 8) j))))
+                   (+ y a)
+                   (* z 2)])]
         (add-cubey (* i 6 6 3)
-                   (mapv pos
-                         [[-3 -3 3]
-                          [3 -3 3]
-                          [3 -3 -3]
-                          [-3 -3 -3]])
-                   (mapv pos
-                         [[-3 3 3]
-                          [3 3 3]
-                          [3 3 -3]
-                          [-3 3 -3]])
+                   (partition
+                     4
+                     (map-indexed
+                       pos
+                       [[-3 -3 3]
+                        [3 -3 3]
+                        [3 -3 -3]
+                        [-3 -3 -3]
+                        [-3 3 3]
+                        [3 3 3]
+                        [3 3 -3]
+                        [-3 3 -3]]))
                    (let [tfn (fn [shift]
                                (fn [from to]
                                  (+ from
