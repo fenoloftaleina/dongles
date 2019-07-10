@@ -10,13 +10,17 @@
 (def m (* faces 6 3))
 (def geometry (js/THREE.BufferGeometry.))
 (def vertices (js/Float32Array. m))
+(def normals (js/Float32Array. m))
 (def colors (js/Float32Array. m))
 (def position-attribute (js/THREE.BufferAttribute. vertices 3))
 (set! (.-dynamic position-attribute) true)
+(def normal-attribute (js/THREE.BufferAttribute. normals 3))
+(set! (.-dynamic normal-attribute) true)
 (def color-attribute (js/THREE.BufferAttribute. colors 3))
 (set! (.-dynamic color-attribute) true)
 
 (.addAttribute geometry "position" position-attribute)
+(.addAttribute geometry "normal" normal-attribute)
 (.addAttribute geometry "color" color-attribute)
 
 (def mesh
@@ -38,6 +42,9 @@
           (+ start i)
           (nth in i))))
 
+(defn v3 [[x y z]]
+  (js/THREE.Vector3. x y z))
+
 (defn prepare [t & [state]]
   (let [add-face (fn [i vs4x3 cs2x3]
                    (doseq [[j v] (map vector
@@ -48,6 +55,37 @@
                                          (nth vs4x3 3)
                                          (nth vs4x3 2)]))]
                      (set3 vertices (+ i (* j 3)) v))
+                   (doseq [[j v] (map vector
+                                      (range 0 6)
+                                      (concat
+                                        (repeat
+                                          3
+                                          (let [v (js/THREE.Vector3. 0 0 0)
+                                                a (.add
+                                                    (v3 (nth vs4x3 1))
+                                                    (.negate (v3 (nth vs4x3 0))))
+                                                b (.add
+                                                    (v3 (nth vs4x3 2))
+                                                    (.negate (v3 (nth vs4x3 0))))
+                                                ]
+                                            (.crossVectors v a b)
+                                            [(.-x v) (.-y v) (.-z v)])
+                                          )
+                                        (repeat
+                                          3
+                                          (let [v (js/THREE.Vector3. 0 0 0)
+                                                a (.add
+                                                    (v3 (nth vs4x3 3))
+                                                    (.negate (v3 (nth vs4x3 1))))
+                                                b (.add
+                                                    (v3 (nth vs4x3 2))
+                                                    (.negate (v3 (nth vs4x3 1))))
+                                                ]
+                                            (.crossVectors v a b)
+                                            [(.-x v) (.-y v) (.-z v)])
+                                          ))
+                                      )]
+                     (set3 normals (+ i (* j 3)) v))
                    (doseq [j [0 3 9]]
                      (set3 colors (+ i j) (first cs2x3)))
                    (doseq [j [6 12 15]]
@@ -148,6 +186,7 @@
                )
 
     (set! (.-needsUpdate position-attribute) true)
+    (set! (.-needsUpdate normal-attribute) true)
     (set! (.-needsUpdate color-attribute) true)
 
     ;; (.setIndex geometry
@@ -156,7 +195,7 @@
     ;;                [0 1 2 1 3 2])
     ;;              1))
 
-    (.computeVertexNormals geometry)
+    ;; (.computeVertexNormals geometry)
     (.computeBoundingSphere geometry)
 
     )
