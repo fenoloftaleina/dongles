@@ -16,7 +16,7 @@ stats.domElement.style.position = "absolute";
 
 stats.domElement.style.left = "0px";
 
-stats.domElement.style.top = "0px";
+stats.domElement.style.bottom = "0px";
 
 document.body.appendChild(stats.domElement);
 
@@ -65,53 +65,53 @@ cljs.core.nth.call(null,lights,(1)).position.set((1),(10),(1));
 
 cljs.core.nth.call(null,lights,(2)).position.set((-5),(3),(8));
 
-var seq__41646_41650 = cljs.core.seq.call(null,lights);
-var chunk__41647_41651 = null;
-var count__41648_41652 = (0);
-var i__41649_41653 = (0);
+var seq__39484_39488 = cljs.core.seq.call(null,lights);
+var chunk__39485_39489 = null;
+var count__39486_39490 = (0);
+var i__39487_39491 = (0);
 while(true){
-if((i__41649_41653 < count__41648_41652)){
-var light_41654 = cljs.core._nth.call(null,chunk__41647_41651,i__41649_41653);
-scene.add(light_41654);
+if((i__39487_39491 < count__39486_39490)){
+var light_39492 = cljs.core._nth.call(null,chunk__39485_39489,i__39487_39491);
+scene.add(light_39492);
 
 
-var G__41655 = seq__41646_41650;
-var G__41656 = chunk__41647_41651;
-var G__41657 = count__41648_41652;
-var G__41658 = (i__41649_41653 + (1));
-seq__41646_41650 = G__41655;
-chunk__41647_41651 = G__41656;
-count__41648_41652 = G__41657;
-i__41649_41653 = G__41658;
+var G__39493 = seq__39484_39488;
+var G__39494 = chunk__39485_39489;
+var G__39495 = count__39486_39490;
+var G__39496 = (i__39487_39491 + (1));
+seq__39484_39488 = G__39493;
+chunk__39485_39489 = G__39494;
+count__39486_39490 = G__39495;
+i__39487_39491 = G__39496;
 continue;
 } else {
-var temp__5720__auto___41659 = cljs.core.seq.call(null,seq__41646_41650);
-if(temp__5720__auto___41659){
-var seq__41646_41660__$1 = temp__5720__auto___41659;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__41646_41660__$1)){
-var c__4550__auto___41661 = cljs.core.chunk_first.call(null,seq__41646_41660__$1);
-var G__41662 = cljs.core.chunk_rest.call(null,seq__41646_41660__$1);
-var G__41663 = c__4550__auto___41661;
-var G__41664 = cljs.core.count.call(null,c__4550__auto___41661);
-var G__41665 = (0);
-seq__41646_41650 = G__41662;
-chunk__41647_41651 = G__41663;
-count__41648_41652 = G__41664;
-i__41649_41653 = G__41665;
+var temp__5720__auto___39497 = cljs.core.seq.call(null,seq__39484_39488);
+if(temp__5720__auto___39497){
+var seq__39484_39498__$1 = temp__5720__auto___39497;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__39484_39498__$1)){
+var c__4550__auto___39499 = cljs.core.chunk_first.call(null,seq__39484_39498__$1);
+var G__39500 = cljs.core.chunk_rest.call(null,seq__39484_39498__$1);
+var G__39501 = c__4550__auto___39499;
+var G__39502 = cljs.core.count.call(null,c__4550__auto___39499);
+var G__39503 = (0);
+seq__39484_39488 = G__39500;
+chunk__39485_39489 = G__39501;
+count__39486_39490 = G__39502;
+i__39487_39491 = G__39503;
 continue;
 } else {
-var light_41666 = cljs.core.first.call(null,seq__41646_41660__$1);
-scene.add(light_41666);
+var light_39504 = cljs.core.first.call(null,seq__39484_39498__$1);
+scene.add(light_39504);
 
 
-var G__41667 = cljs.core.next.call(null,seq__41646_41660__$1);
-var G__41668 = null;
-var G__41669 = (0);
-var G__41670 = (0);
-seq__41646_41650 = G__41667;
-chunk__41647_41651 = G__41668;
-count__41648_41652 = G__41669;
-i__41649_41653 = G__41670;
+var G__39505 = cljs.core.next.call(null,seq__39484_39498__$1);
+var G__39506 = null;
+var G__39507 = (0);
+var G__39508 = (0);
+seq__39484_39488 = G__39505;
+chunk__39485_39489 = G__39506;
+count__39486_39490 = G__39507;
+i__39487_39491 = G__39508;
 continue;
 }
 } else {
@@ -131,7 +131,7 @@ var camera = dongles.core.prepared_camera.call(null);
 var renderer = dongles.core.prepared_renderer.call(null);
 var lights = dongles.core.prepared_lights.call(null,scene);
 var running = cljs.core.atom.call(null,true);
-scene.add(dongles.mesh.prepare.call(null));
+scene.add(dongles.mesh.prepare.call(null,(0)));
 
 var animate = ((function (scene,camera,renderer,lights,running){
 return (function dongles$core$init_$_animate(i){
@@ -140,10 +140,16 @@ requestAnimationFrame(dongles$core$init_$_animate,((1) + i));
 } else {
 }
 
-if((cljs.core.mod.call(null,(i * (1000)),5.0) < 1.0)){
-dongles.mesh.prepare.call(null);
+if((cljs.core.mod.call(null,(i * (300)),(50)) < 1.0)){
+cljs.core.swap_BANG_.call(null,dongles.core.state,cljs.core.assoc,new cljs.core.Keyword(null,"x-incs","x-incs",1657352393),cljs.core.repeatedly.call(null,((8) * dongles.mesh.n),((function (scene,camera,renderer,lights,running){
+return (function (){
+return cljs.core.rand_int.call(null,(3));
+});})(scene,camera,renderer,lights,running))
+),new cljs.core.Keyword(null,"x-incs-start","x-incs-start",-884262934),i,new cljs.core.Keyword(null,"x-incs-duration","x-incs-duration",1496693748),200.0);
 } else {
 }
+
+dongles.mesh.prepare.call(null,i,cljs.core.deref.call(null,dongles.core.state));
 
 renderer.render(scene,camera);
 
@@ -159,8 +165,8 @@ return null;
 animate.call(null,(0));
 
 return cljs.core.swap_BANG_.call(null,dongles.core.state,((function (scene,camera,renderer,lights,running){
-return (function (p1__41671_SHARP_){
-return cljs.core.assoc.call(null,p1__41671_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
+return (function (p1__39509_SHARP_){
+return cljs.core.assoc.call(null,p1__39509_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
 return (function (){
 return cljs.core.reset_BANG_.call(null,running,false);
 });})(scene,camera,renderer,lights,running))
@@ -170,17 +176,17 @@ return cljs.core.reset_BANG_.call(null,running,false);
 }
 });
 dongles.core.teardown_app = (function dongles$core$teardown_app(){
-var temp__5720__auto___41672 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___41672)){
-var stopper_41673 = temp__5720__auto___41672;
-stopper_41673.call(null);
+var temp__5720__auto___39510 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___39510)){
+var stopper_39511 = temp__5720__auto___39510;
+stopper_39511.call(null);
 } else {
 }
 
-var temp__5720__auto___41674 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___41674)){
-var renderer_41675 = temp__5720__auto___41674;
-document.body.removeChild(renderer_41675.domElement);
+var temp__5720__auto___39512 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___39512)){
+var renderer_39513 = temp__5720__auto___39512;
+document.body.removeChild(renderer_39513.domElement);
 } else {
 }
 
@@ -194,4 +200,4 @@ dongles.core.on_js_reload = (function dongles$core$on_js_reload(){
 return null;
 });
 
-//# sourceMappingURL=core.js.map?rel=1562612688469
+//# sourceMappingURL=core.js.map?rel=1562795878075
