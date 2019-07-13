@@ -38,7 +38,6 @@
     (set-pos camera 0 12 50)
     ;; (set-pos camera 20 10 50)
     ;; (set-pos camera -15 5 40)
-    ;; (set! (.. camera -rotation -y) 0.5)
 
     camera))
 
@@ -58,7 +57,7 @@
                 (js/THREE.DirectionalLight. 0xffffff 0.5)
                 (js/THREE.DirectionalLight. 0xffffff 1)
                 ]]
-    (.set (.-position (nth lights 1)) 1 10 1)
+    (.set (.-position (nth lights 1)) 2 10 1)
     (.set (.-position (nth lights 2)) -5 3 8)
     (doseq [light lights]
       (.add scene light))
