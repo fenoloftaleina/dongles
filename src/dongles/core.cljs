@@ -73,6 +73,8 @@
           lights (prepared-lights scene)
           running (atom true)]
 
+      (js/THREE.OrbitControls. camera (.-domElement renderer))
+
       (.add scene (mesh/prepare 0))
 
       (letfn [(animate [i]
