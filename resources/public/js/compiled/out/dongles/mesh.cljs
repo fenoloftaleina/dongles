@@ -30,7 +30,7 @@
       (clj->js
         {:color 0xffffff
          :specular 0xffffff
-         :shininess 350
+         :shininess 5
          :side js/THREE.DoubleSide
          :vertexColors js/THREE.VertexColors}))))
 
@@ -45,6 +45,9 @@
 (defn v3 [[x y z]]
   (js/THREE.Vector3. x y z))
 
+(defn v3->arr [v]
+  [(.-x v) (.-y v) (.-z v)])
+
 (defn prepare [t & [state]]
   (let [add-face (fn [i vs4x3 cs2x3]
                    (doseq [[j v] (map vector
@@ -55,37 +58,43 @@
                                          (nth vs4x3 3)
                                          (nth vs4x3 2)]))]
                      (set3 vertices (+ i (* j 3)) v))
-                   (doseq [[j v] (map vector
-                                      (range 0 6)
-                                      (concat
-                                        (repeat
-                                          3
-                                          (let [v (js/THREE.Vector3. 0 0 0)
-                                                a (.add
-                                                    (v3 (nth vs4x3 1))
-                                                    (.negate (v3 (nth vs4x3 0))))
-                                                b (.add
-                                                    (v3 (nth vs4x3 2))
-                                                    (.negate (v3 (nth vs4x3 0))))
-                                                ]
-                                            (.crossVectors v a b)
-                                            [(.-x v) (.-y v) (.-z v)])
-                                          )
-                                        (repeat
-                                          3
-                                          (let [v (js/THREE.Vector3. 0 0 0)
-                                                a (.add
-                                                    (v3 (nth vs4x3 3))
-                                                    (.negate (v3 (nth vs4x3 1))))
-                                                b (.add
-                                                    (v3 (nth vs4x3 2))
-                                                    (.negate (v3 (nth vs4x3 1))))
-                                                ]
-                                            (.crossVectors v a b)
-                                            [(.-x v) (.-y v) (.-z v)])
-                                          ))
-                                      )]
-                     (set3 normals (+ i (* j 3)) v))
+                   (let [first-face-normal
+                         (.normalize
+                           (.cross
+                             (.sub
+                               (v3 (nth vs4x3 1))
+                               (v3 (nth vs4x3 0)))
+                             (.sub
+                               (v3 (nth vs4x3 2))
+                               (v3 (nth vs4x3 0)))))
+                         second-face-normal
+                         (.normalize
+                           (.cross
+                             (.sub
+                               (v3 (nth vs4x3 3))
+                               (v3 (nth vs4x3 1)))
+                             (.sub
+                               (v3 (nth vs4x3 2))
+                               (v3 (nth vs4x3 1)))))
+                         between-normal
+                         (.normalize
+                           (.divideScalar
+                             (.addVectors
+                               (js/THREE.Vector3. 0 0 0)
+                               first-face-normal
+                               second-face-normal)
+                             2))]
+                     (doseq [[j v] (map vector
+                                        (range 0 6)
+                                        (map
+                                          v3->arr
+                                          [first-face-normal
+                                           between-normal
+                                           between-normal
+                                           between-normal
+                                           second-face-normal
+                                           between-normal]))]
+                       (set3 normals (+ i (* j 3)) v)))
                    (doseq [j [0 3 9]]
                      (set3 colors (+ i j) (first cs2x3)))
                    (doseq [j [6 12 15]]
@@ -118,24 +127,12 @@
     #_(add-face 0
               [[-3 -3 3]
                [3 -3 3]
-               [-3 3 3]
-               [3 3 3]]
+               [-3 3 -3]
+               [3 3 -3]]
               [[0 0.5 0.5]
-               [0.5 0.3 0.6]]
+               [0 0.5 0.5]
+               #_[0.5 0.3 0.6]]
               )
-
-    #_(add-cubey 0
-               [[-3 -3 3]
-                [3 -3 3]
-                [3 -3 -3]
-                [-3 -3 -3]]
-               [[-3 3 3]
-                [3 3 3]
-                [3 3 -3]
-                [-3 3 -3]]
-               [[0 0.5 0.5]
-                [0.5 0.3 0.6]]
-               )
 
     (dotimes [i n]
       (let [a (* i 6.3)

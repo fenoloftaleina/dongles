@@ -61,57 +61,57 @@ return renderer;
 });
 dongles.core.prepared_lights = (function dongles$core$prepared_lights(scene){
 var lights = new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(new THREE.AmbientLight((4473924))),(new THREE.DirectionalLight((16777215),0.5)),(new THREE.DirectionalLight((16777215),(1)))], null);
-cljs.core.nth.call(null,lights,(1)).position.set((1),(10),(1));
+cljs.core.nth.call(null,lights,(1)).position.set((2),(10),(1));
 
 cljs.core.nth.call(null,lights,(2)).position.set((-5),(3),(8));
 
-var seq__39484_39488 = cljs.core.seq.call(null,lights);
-var chunk__39485_39489 = null;
-var count__39486_39490 = (0);
-var i__39487_39491 = (0);
+var seq__54949_54953 = cljs.core.seq.call(null,lights);
+var chunk__54950_54954 = null;
+var count__54951_54955 = (0);
+var i__54952_54956 = (0);
 while(true){
-if((i__39487_39491 < count__39486_39490)){
-var light_39492 = cljs.core._nth.call(null,chunk__39485_39489,i__39487_39491);
-scene.add(light_39492);
+if((i__54952_54956 < count__54951_54955)){
+var light_54957 = cljs.core._nth.call(null,chunk__54950_54954,i__54952_54956);
+scene.add(light_54957);
 
 
-var G__39493 = seq__39484_39488;
-var G__39494 = chunk__39485_39489;
-var G__39495 = count__39486_39490;
-var G__39496 = (i__39487_39491 + (1));
-seq__39484_39488 = G__39493;
-chunk__39485_39489 = G__39494;
-count__39486_39490 = G__39495;
-i__39487_39491 = G__39496;
+var G__54958 = seq__54949_54953;
+var G__54959 = chunk__54950_54954;
+var G__54960 = count__54951_54955;
+var G__54961 = (i__54952_54956 + (1));
+seq__54949_54953 = G__54958;
+chunk__54950_54954 = G__54959;
+count__54951_54955 = G__54960;
+i__54952_54956 = G__54961;
 continue;
 } else {
-var temp__5720__auto___39497 = cljs.core.seq.call(null,seq__39484_39488);
-if(temp__5720__auto___39497){
-var seq__39484_39498__$1 = temp__5720__auto___39497;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__39484_39498__$1)){
-var c__4550__auto___39499 = cljs.core.chunk_first.call(null,seq__39484_39498__$1);
-var G__39500 = cljs.core.chunk_rest.call(null,seq__39484_39498__$1);
-var G__39501 = c__4550__auto___39499;
-var G__39502 = cljs.core.count.call(null,c__4550__auto___39499);
-var G__39503 = (0);
-seq__39484_39488 = G__39500;
-chunk__39485_39489 = G__39501;
-count__39486_39490 = G__39502;
-i__39487_39491 = G__39503;
+var temp__5720__auto___54962 = cljs.core.seq.call(null,seq__54949_54953);
+if(temp__5720__auto___54962){
+var seq__54949_54963__$1 = temp__5720__auto___54962;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__54949_54963__$1)){
+var c__4550__auto___54964 = cljs.core.chunk_first.call(null,seq__54949_54963__$1);
+var G__54965 = cljs.core.chunk_rest.call(null,seq__54949_54963__$1);
+var G__54966 = c__4550__auto___54964;
+var G__54967 = cljs.core.count.call(null,c__4550__auto___54964);
+var G__54968 = (0);
+seq__54949_54953 = G__54965;
+chunk__54950_54954 = G__54966;
+count__54951_54955 = G__54967;
+i__54952_54956 = G__54968;
 continue;
 } else {
-var light_39504 = cljs.core.first.call(null,seq__39484_39498__$1);
-scene.add(light_39504);
+var light_54969 = cljs.core.first.call(null,seq__54949_54963__$1);
+scene.add(light_54969);
 
 
-var G__39505 = cljs.core.next.call(null,seq__39484_39498__$1);
-var G__39506 = null;
-var G__39507 = (0);
-var G__39508 = (0);
-seq__39484_39488 = G__39505;
-chunk__39485_39489 = G__39506;
-count__39486_39490 = G__39507;
-i__39487_39491 = G__39508;
+var G__54970 = cljs.core.next.call(null,seq__54949_54963__$1);
+var G__54971 = null;
+var G__54972 = (0);
+var G__54973 = (0);
+seq__54949_54953 = G__54970;
+chunk__54950_54954 = G__54971;
+count__54951_54955 = G__54972;
+i__54952_54956 = G__54973;
 continue;
 }
 } else {
@@ -131,6 +131,8 @@ var camera = dongles.core.prepared_camera.call(null);
 var renderer = dongles.core.prepared_renderer.call(null);
 var lights = dongles.core.prepared_lights.call(null,scene);
 var running = cljs.core.atom.call(null,true);
+(new THREE.OrbitControls(camera,renderer.domElement));
+
 scene.add(dongles.mesh.prepare.call(null,(0)));
 
 var animate = ((function (scene,camera,renderer,lights,running){
@@ -165,8 +167,8 @@ return null;
 animate.call(null,(0));
 
 return cljs.core.swap_BANG_.call(null,dongles.core.state,((function (scene,camera,renderer,lights,running){
-return (function (p1__39509_SHARP_){
-return cljs.core.assoc.call(null,p1__39509_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
+return (function (p1__54974_SHARP_){
+return cljs.core.assoc.call(null,p1__54974_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
 return (function (){
 return cljs.core.reset_BANG_.call(null,running,false);
 });})(scene,camera,renderer,lights,running))
@@ -176,17 +178,17 @@ return cljs.core.reset_BANG_.call(null,running,false);
 }
 });
 dongles.core.teardown_app = (function dongles$core$teardown_app(){
-var temp__5720__auto___39510 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___39510)){
-var stopper_39511 = temp__5720__auto___39510;
-stopper_39511.call(null);
+var temp__5720__auto___54975 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___54975)){
+var stopper_54976 = temp__5720__auto___54975;
+stopper_54976.call(null);
 } else {
 }
 
-var temp__5720__auto___39512 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___39512)){
-var renderer_39513 = temp__5720__auto___39512;
-document.body.removeChild(renderer_39513.domElement);
+var temp__5720__auto___54977 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___54977)){
+var renderer_54978 = temp__5720__auto___54977;
+document.body.removeChild(renderer_54978.domElement);
 } else {
 }
 
@@ -200,4 +202,4 @@ dongles.core.on_js_reload = (function dongles$core$on_js_reload(){
 return null;
 });
 
-//# sourceMappingURL=core.js.map?rel=1562795878075
+//# sourceMappingURL=core.js.map?rel=1563044229472
