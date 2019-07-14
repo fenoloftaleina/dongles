@@ -5,7 +5,10 @@
 (defn debug [msg]
   (set! (.-innerHTML (js/document.getElementById "debug")) msg))
 
-(def n 5)
+(def n 50)
+(def h 0.6)
+(def hh (/ h 2))
+(def -hh (* -1 hh))
 (def faces (* 6 n))
 (def m (* faces 6 3))
 (def geometry (js/THREE.BufferGeometry.))
@@ -47,6 +50,15 @@
 
 (defn v3->arr [v]
   [(.-x v) (.-y v) (.-z v)])
+
+(defn sin [x]
+  (js/Math.sin x))
+
+(defn pow [x n]
+  (js/Math.pow x n))
+
+(defn sin2 [x]
+  (pow (sin x) 2))
 
 (defn prepare [t & [state]]
   (let [add-face (fn [i vs4x3 cs2x3]
@@ -135,29 +147,31 @@
               )
 
     (dotimes [i n]
-      (let [a (* i 6.3)
+      (let [a (* i (+ h 0.0))
             pos (fn [j [x y z]]
-                  [(+ x (* (js/THREE.Math.clamp
-                             (/ (- t (:x-incs-start state))
-                                (float (:x-incs-duration state)))
-                             0
-                             1)
-                           (nth (:x-incs state) (+ (* i 8) j))))
-                   (+ y a)
-                   (* z 2)])]
+                  (let [ny (+ y a)
+                        nz z #_(+ z (- (sin (* ny 0.3))))
+                        nx (+ x (* 4.8 (sin (* ny 0.2)) (sin (* t 0.001))) (* (sin2 (* ny 2.7)) (sin2 (* t 0.005)) 0.5))]
+                    [#_(+ x (* (js/THREE.Math.clamp
+                                 (/ (- t (:x-incs-start state))
+                                    (float (:x-incs-duration state)))
+                                 0
+                                 1)
+                               (nth (:x-incs state) (+ (* i 8) j))))
+                     nx ny nz]))]
         (add-cubey (* i 6 6 3)
                    (partition
                      4
                      (map-indexed
                        pos
-                       [[-3 -3 3]
-                        [3 -3 3]
-                        [3 -3 -3]
-                        [-3 -3 -3]
-                        [-3 3 3]
-                        [3 3 3]
-                        [3 3 -3]
-                        [-3 3 -3]]))
+                       [[-hh -hh hh]
+                        [hh -hh hh]
+                        [hh -hh -hh]
+                        [-hh -hh -hh]
+                        [-hh hh hh]
+                        [hh hh hh]
+                        [hh hh -hh]
+                        [-hh hh -hh]]))
                    (let [tfn (fn [shift]
                                (fn [from to]
                                  (+ from
