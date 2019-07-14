@@ -5,8 +5,11 @@
 (defn debug [msg]
   (set! (.-innerHTML (js/document.getElementById "debug")) msg))
 
-(def n 50)
-(def h 0.6)
+(defmacro tm [& body]
+  `(debug (with-out-str (time ~@body))))
+
+(def n 3000)
+(def h 0.01)
 (def hh (/ h 2))
 (def -hh (* -1 hh))
 (def faces (* 6 n))
@@ -39,11 +42,14 @@
 
 (set! (.. mesh -rotation -y) -0.9)
 
-(defn set3 [out start in]
-  (dotimes [i 3]
-    (aset out
-          (+ start i)
-          (nth in i))))
+(defn set3 [out start [in0 in1 in2 :as in]]
+  ;; (dotimes [i 3]
+  ;;   (aset out
+  ;;         (+ start i)
+  ;;         (nth in i))))
+  (aset out start in0)
+  (aset out (+ start 1) in1)
+  (aset out (+ start 2) in2))
 
 (defn v3 [[x y z]]
   (js/THREE.Vector3. x y z))
@@ -60,16 +66,33 @@
 (defn sin2 [x]
   (pow (sin x) 2))
 
+(def cube-vs4x3s
+  [[-hh -hh hh]
+   [hh -hh hh]
+   [hh -hh -hh]
+   [-hh -hh -hh]
+   [-hh hh hh]
+   [hh hh hh]
+   [hh hh -hh]
+   [-hh hh -hh]])
+
 (defn prepare [t & [state]]
-  (let [add-face (fn [i vs4x3 cs2x3]
-                   (doseq [[j v] (map vector
-                                      (range 0 6)
-                                      (concat
-                                        (take 3 vs4x3)
-                                        [(nth vs4x3 1)
-                                         (nth vs4x3 3)
-                                         (nth vs4x3 2)]))]
-                     (set3 vertices (+ i (* j 3)) v))
+  (let [add-face (fn [i [vs0 vs1 vs2 vs3 :as vs4x3] cs2x3]
+                   ;; (doseq [[j v] (map vector
+                   ;;                    (range 0 6)
+                   ;;                    (concat
+                   ;;                      (take 3 vs4x3)
+                   ;;                      [(nth vs4x3 1)
+                   ;;                       (nth vs4x3 3)
+                   ;;                       (nth vs4x3 2)]))]
+                   ;;   (set3 vertices (+ i (* j 3)) v))
+                   (set3 vertices (+ i 0) vs0)
+                   (set3 vertices (+ i 3) vs1)
+                   (set3 vertices (+ i 6) vs2)
+                   (set3 vertices (+ i 9) vs1)
+                   (set3 vertices (+ i 12) vs3)
+                   (set3 vertices (+ i 15) vs2)
+
                    (let [first-face-normal
                          (.normalize
                            (.cross
@@ -107,10 +130,20 @@
                                            second-face-normal
                                            between-normal]))]
                        (set3 normals (+ i (* j 3)) v)))
-                   (doseq [j [0 3 9]]
-                     (set3 colors (+ i j) (first cs2x3)))
-                   (doseq [j [6 12 15]]
-                     (set3 colors (+ i j) (last cs2x3))))
+
+                   ;; (doseq [j [0 3 9]]
+                   ;;   (set3 colors (+ i j) (first cs2x3)))
+                   (let [f (first cs2x3)]
+                   (dotimes [j 3]
+                     (set3 colors (+ i (* j 3)) f)))
+
+                   ;; (doseq [j [6 12 15]]
+                   ;;   (set3 colors (+ i j) (last cs2x3)))
+                   (let [l (last cs2x3)]
+                   (set3 colors (+ i 6) l)
+                   (set3 colors (+ i 12) l)
+                   (set3 colors (+ i 15) l))
+                   )
         add-cubey (fn [i [vs-bottom4x3 vs-top4x3] cs2x3]
                     (dotimes [j 4]
                       (add-face
@@ -149,9 +182,10 @@
     (dotimes [i n]
       (let [a (* i (+ h 0.0))
             pos (fn [j [x y z]]
-                  (let [ny (+ y a)
-                        nz z #_(+ z (- (sin (* ny 0.3))))
-                        nx (+ x (* 4.8 (sin (* ny 0.2)) (sin (* t 0.001))) (* (sin2 (* ny 2.7)) (sin2 (* t 0.005)) 0.5))]
+                  ;; (let [ny (+ y a)
+                  ;;       nz z #_(+ z (- (sin (* ny 0.3))))
+                  ;;       nx (+ x (* 4.8 (sin (* ny 0.2)) (sin (* t 0.001))) (* (sin2 (* ny 2.7)) (sin2 (* t 0.005)) 0.5))]
+                  (let [ny (+ y (* i h)) nx (+ x (* 3 (sin (* ny 0.3)))) nz (* z 10)]
                     [#_(+ x (* (js/THREE.Math.clamp
                                  (/ (- t (:x-incs-start state))
                                     (float (:x-incs-duration state)))
@@ -160,18 +194,7 @@
                                (nth (:x-incs state) (+ (* i 8) j))))
                      nx ny nz]))]
         (add-cubey (* i 6 6 3)
-                   (partition
-                     4
-                     (map-indexed
-                       pos
-                       [[-hh -hh hh]
-                        [hh -hh hh]
-                        [hh -hh -hh]
-                        [-hh -hh -hh]
-                        [-hh hh hh]
-                        [hh hh hh]
-                        [hh hh -hh]
-                        [-hh hh -hh]]))
+                   (partition 4 (map-indexed pos cube-vs4x3s))
                    (let [tfn (fn [shift]
                                (fn [from to]
                                  (+ from
@@ -207,7 +230,6 @@
     ;;              1))
 
     ;; (.computeVertexNormals geometry)
-    (.computeBoundingSphere geometry)
 
     )
 mesh

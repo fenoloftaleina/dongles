@@ -65,53 +65,53 @@ cljs.core.nth.call(null,lights,(1)).position.set((2),(10),(1));
 
 cljs.core.nth.call(null,lights,(2)).position.set((-5),(3),(8));
 
-var seq__90615_90619 = cljs.core.seq.call(null,lights);
-var chunk__90616_90620 = null;
-var count__90617_90621 = (0);
-var i__90618_90622 = (0);
+var seq__106756_106760 = cljs.core.seq.call(null,lights);
+var chunk__106757_106761 = null;
+var count__106758_106762 = (0);
+var i__106759_106763 = (0);
 while(true){
-if((i__90618_90622 < count__90617_90621)){
-var light_90623 = cljs.core._nth.call(null,chunk__90616_90620,i__90618_90622);
-scene.add(light_90623);
+if((i__106759_106763 < count__106758_106762)){
+var light_106764 = cljs.core._nth.call(null,chunk__106757_106761,i__106759_106763);
+scene.add(light_106764);
 
 
-var G__90624 = seq__90615_90619;
-var G__90625 = chunk__90616_90620;
-var G__90626 = count__90617_90621;
-var G__90627 = (i__90618_90622 + (1));
-seq__90615_90619 = G__90624;
-chunk__90616_90620 = G__90625;
-count__90617_90621 = G__90626;
-i__90618_90622 = G__90627;
+var G__106765 = seq__106756_106760;
+var G__106766 = chunk__106757_106761;
+var G__106767 = count__106758_106762;
+var G__106768 = (i__106759_106763 + (1));
+seq__106756_106760 = G__106765;
+chunk__106757_106761 = G__106766;
+count__106758_106762 = G__106767;
+i__106759_106763 = G__106768;
 continue;
 } else {
-var temp__5720__auto___90628 = cljs.core.seq.call(null,seq__90615_90619);
-if(temp__5720__auto___90628){
-var seq__90615_90629__$1 = temp__5720__auto___90628;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__90615_90629__$1)){
-var c__4550__auto___90630 = cljs.core.chunk_first.call(null,seq__90615_90629__$1);
-var G__90631 = cljs.core.chunk_rest.call(null,seq__90615_90629__$1);
-var G__90632 = c__4550__auto___90630;
-var G__90633 = cljs.core.count.call(null,c__4550__auto___90630);
-var G__90634 = (0);
-seq__90615_90619 = G__90631;
-chunk__90616_90620 = G__90632;
-count__90617_90621 = G__90633;
-i__90618_90622 = G__90634;
+var temp__5720__auto___106769 = cljs.core.seq.call(null,seq__106756_106760);
+if(temp__5720__auto___106769){
+var seq__106756_106770__$1 = temp__5720__auto___106769;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__106756_106770__$1)){
+var c__4550__auto___106771 = cljs.core.chunk_first.call(null,seq__106756_106770__$1);
+var G__106772 = cljs.core.chunk_rest.call(null,seq__106756_106770__$1);
+var G__106773 = c__4550__auto___106771;
+var G__106774 = cljs.core.count.call(null,c__4550__auto___106771);
+var G__106775 = (0);
+seq__106756_106760 = G__106772;
+chunk__106757_106761 = G__106773;
+count__106758_106762 = G__106774;
+i__106759_106763 = G__106775;
 continue;
 } else {
-var light_90635 = cljs.core.first.call(null,seq__90615_90629__$1);
-scene.add(light_90635);
+var light_106776 = cljs.core.first.call(null,seq__106756_106770__$1);
+scene.add(light_106776);
 
 
-var G__90636 = cljs.core.next.call(null,seq__90615_90629__$1);
-var G__90637 = null;
-var G__90638 = (0);
-var G__90639 = (0);
-seq__90615_90619 = G__90636;
-chunk__90616_90620 = G__90637;
-count__90617_90621 = G__90638;
-i__90618_90622 = G__90639;
+var G__106777 = cljs.core.next.call(null,seq__106756_106770__$1);
+var G__106778 = null;
+var G__106779 = (0);
+var G__106780 = (0);
+seq__106756_106760 = G__106777;
+chunk__106757_106761 = G__106778;
+count__106758_106762 = G__106779;
+i__106759_106763 = G__106780;
 continue;
 }
 } else {
@@ -149,7 +149,21 @@ return cljs.core.rand_int.call(null,(3));
 } else {
 }
 
-dongles.mesh.prepare.call(null,i,cljs.core.deref.call(null,dongles.core.state));
+var n__4607__auto___106782 = (10);
+var j_106783 = (0);
+while(true){
+if((j_106783 < n__4607__auto___106782)){
+(dongles.mesh.vertices[cljs.core.rand_int.call(null,dongles.mesh.m)] = cljs.core.rand_int.call(null,(dongles.mesh.hh * dongles.mesh.n)));
+
+var G__106784 = (j_106783 + (1));
+j_106783 = G__106784;
+continue;
+} else {
+}
+break;
+}
+
+dongles.mesh.position_attribute.needsUpdate = true;
 
 renderer.render(scene,camera);
 
@@ -165,8 +179,8 @@ return null;
 animate.call(null,(0));
 
 return cljs.core.swap_BANG_.call(null,dongles.core.state,((function (scene,camera,renderer,lights,running){
-return (function (p1__90640_SHARP_){
-return cljs.core.assoc.call(null,p1__90640_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
+return (function (p1__106781_SHARP_){
+return cljs.core.assoc.call(null,p1__106781_SHARP_,new cljs.core.Keyword(null,"renderer","renderer",336841071),renderer,new cljs.core.Keyword(null,"stopper","stopper",-304934685),((function (scene,camera,renderer,lights,running){
 return (function (){
 return cljs.core.reset_BANG_.call(null,running,false);
 });})(scene,camera,renderer,lights,running))
@@ -176,17 +190,17 @@ return cljs.core.reset_BANG_.call(null,running,false);
 }
 });
 dongles.core.teardown_app = (function dongles$core$teardown_app(){
-var temp__5720__auto___90641 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___90641)){
-var stopper_90642 = temp__5720__auto___90641;
-stopper_90642.call(null);
+var temp__5720__auto___106785 = new cljs.core.Keyword(null,"stopper","stopper",-304934685).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___106785)){
+var stopper_106786 = temp__5720__auto___106785;
+stopper_106786.call(null);
 } else {
 }
 
-var temp__5720__auto___90643 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
-if(cljs.core.truth_(temp__5720__auto___90643)){
-var renderer_90644 = temp__5720__auto___90643;
-document.body.removeChild(renderer_90644.domElement);
+var temp__5720__auto___106787 = new cljs.core.Keyword(null,"renderer","renderer",336841071).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,dongles.core.state));
+if(cljs.core.truth_(temp__5720__auto___106787)){
+var renderer_106788 = temp__5720__auto___106787;
+document.body.removeChild(renderer_106788.domElement);
 } else {
 }
 
@@ -200,4 +214,4 @@ dongles.core.on_js_reload = (function dongles$core$on_js_reload(){
 return null;
 });
 
-//# sourceMappingURL=core.js.map?rel=1563102560211
+//# sourceMappingURL=core.js.map?rel=1563107678019

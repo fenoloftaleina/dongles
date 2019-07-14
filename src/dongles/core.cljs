@@ -86,7 +86,12 @@
                                    #(rand-int 3))
                          :x-incs-start i
                          :x-incs-duration 200.0))
-                (mesh/prepare i @state)
+
+                ;; (mesh/prepare i @state)
+
+                (dotimes [j 10]
+                  (aset mesh/vertices (rand-int mesh/m) (rand-int (* mesh/hh mesh/n))))
+                (set! (.-needsUpdate mesh/position-attribute) true)
 
                 (.render renderer scene camera)
                 (when-let [stats (:stats @state)] (.update stats)))]
